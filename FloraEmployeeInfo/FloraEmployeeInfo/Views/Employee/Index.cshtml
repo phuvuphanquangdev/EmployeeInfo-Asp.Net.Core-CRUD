@@ -1,0 +1,114 @@
+﻿@using FloraEmployeeInfo.Models
+@model List<Employee>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Employee List</h2>
+            <table class="table table-bordered table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="newRow()">Add</button>
+                        </th>
+                        <th colspan="3">
+                            <form class="form-inline" method="post" asp-controller="Employee" asp-action="Index">
+                                @*<input name="name" class="ml-auto form-control form-control-sm" />*@
+                                @*<button type="submit" class="ml-1 btn btn-primary btn-sm">Search</button>*@
+                            </form>
+                        </th>
+                    </tr>
+                    <tr class="table-primary">
+                        <th>Id</th>
+                        <th>Employee Name</th>
+                        <th>Department Id</th>
+                        <th>Designation Id</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Join Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="new-row" class="edit-row">
+                        <form method="post" asp-controller="Employee" asp-action="Insert">
+                        <td><input name="EployeeId" class="form-control form-control-sm" value="0" readonly /></td>
+                        <td><input name="EmployeeName" class="form-control form-control-sm" /></td>
+                        <td><input name="DepartmentId" class="form-control form-control-sm" /></td>
+                        <td><input name="DesignationId" class="form-control form-control-sm" /></td>
+                        <td><input name="Email" class="form-control form-control-sm" /></td>
+                        <td><input name="Phone" class="form-control form-control-sm" /></td>
+                        <td><input type="date" name="JoinDate" class="form-control form-control-sm" /></td>
+                        <td>
+                            <button type="submit" class="btn btn-success btn-sm">Save</button>
+                            <button class="btn btn-warning btn-sm" asp-action="Index" asp-controller="Employee">Cancel</button>
+                        </td>
+                        </form>
+                    </tr>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr id="show-row-@i" class="show-row">
+                            <td>@Model[i].EployeeId</td>
+                            <td>@Model[i].EmployeeName</td>
+                            <td>@Model[i].DepartmentId</td>
+                            <td>@Model[i].DesignationId</td>
+                            <td>@Model[i].Email</td>
+                            <td>@Model[i].Phone</td>
+                            <td>@Model[i].JoinDate</td>
+                            <td>
+                                <form method="post" asp-action="Delete" asp-controller="Employee">
+                                    <button type="button" class="btn btn-secondary btn-sm" onclick="editRow('@i')">Edit</button>
+                                    <input asp-for="@Model[i].EployeeId" name="EployeeId" type="hidden" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr id="edit-row-@i" class="edit-row">
+                            <form method="post" asp-controller="Employee" asp-action="Edit">
+                            <td><input asp-for="@Model[i].EployeeId" name="EployeeId" class="form-control form-control-sm" readonly /></td>
+
+                            <td><input asp-for="@Model[i].EmployeeName" name="EmployeeName" class="form-control form-control-sm" /></td>
+
+                            <td><input asp-for="@Model[i].DepartmentId", name="DepartmentId" class="form-control form-control-sm" /></td>
+
+                            <td><input asp-for="@Model[i].DesignationId" name="DesignationId" class="form-control form-control-sm" /></td>
+
+                            <td><input asp-for="@Model[i].Email" name="Email" class="form-control form-control-sm" /></td>
+
+                            <td><input asp-for="@Model[i].Phone" name="Phone" class="form-control form-control-sm" /></td>
+
+
+                            <td><input type="date" asp-for="@Model[i].JoinDate" name="JoinDate" class="form-control form-control-sm" /></td>
+
+                            <td>
+                                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                                <button class="btn btn-warning btn-sm" asp-action="Index" asp-controller="Employee">Cancel</button>
+                            </td>
+                            </form>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(() => {
+            $('.edit-row').hide();
+        });
+        function editRow(index) {
+            $('.edit-row').hide();
+            $('#show-row-' + index).hide();
+            $('#edit-row-' + index).show();
+        }
+        function newRow() {
+            $('.edit-row').hide();
+            $('#new-row').show();
+        }
+    </script>
+}

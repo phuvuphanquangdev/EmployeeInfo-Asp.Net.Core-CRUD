@@ -1,0 +1,44 @@
+﻿
+@model IEnumerable<FloraEmployeeInfo.Models.Employee>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Employee List</h2>
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-outline-primary" asp-action="Create" asp-controller="Employees">Add New Emploee</a>
+        </div>
+        <table class="table table-bordered table-sm table-striped mt-2">
+            <thead class="table-warning">
+                <tr>
+                    <th>@Html.DisplayNameFor(x => x.EmployeeName)</th>
+                    <th>@Html.DisplayNameFor(x => x.Department.DepartmentName)</th>
+                    <th>@Html.DisplayNameFor(x => x.Designation.DesignationName)</th>
+                    <th>@Html.DisplayNameFor(x => x.Email)</th>
+                    <th>@Html.DisplayNameFor(x => x.Phone)</th>
+                    <th>@Html.DisplayNameFor(x => x.JoinDate)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(x => item.EmployeeName)</td>
+                    <td>@Html.DisplayFor(x => item.Department.DepartmentName)</td>
+                    <td>@Html.DisplayFor(x => item.Designation.DesignationName)</td>
+                    <td>@Html.DisplayFor(x => item.Email)</td>
+                    <td>@Html.DisplayFor(x => item.Phone)</td>
+                    <td>@Html.DisplayFor(x => item.JoinDate)</td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Employees" asp-route-id="@item.EployeeId" class="btn btn-outline-success btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-controller="Employees" asp-route-id="@item.EployeeId" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
